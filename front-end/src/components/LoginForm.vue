@@ -1,5 +1,6 @@
 <script setup>
 import { useUserStore } from '../../stores/user';
+
 const userStore = useUserStore();
 </script>
 
@@ -7,7 +8,7 @@ const userStore = useUserStore();
     <div>
         <div class="hero-content flex-col lg:flex-row">
             <div class="text-center lg:text-left max-w-md pr-10">
-                <h1 class="text-5xl font-bold">Login now!</h1>
+                <h1 class="text-5xl font-bold">Login First!</h1>
                 <p class="py-6">Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda excepturi exercitationem
                     quasi. In deleniti eaque aut repudiandae et a id nisi.</p>
             </div>

@@ -4,6 +4,7 @@ const User = require('../models/Users');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const auth = require('../middleware/auth');
+const Joi = require('joi');
 
 
 router.get('/getUser', auth, async (req, res) => {
@@ -49,7 +50,19 @@ router.post('/register', async (req, res) => {
     }
 });
 
+const loginSchema = Joi.object({
+    citizenID: Joi.string().required().length(13),
+    password: Joi.string().required()
+})
+
 router.post('/login', async (req, res) => {
+    //validate input
+    try {
+        await loginSchema.validateAsync(req.body, { abortEarly: false })
+    } catch (err) {
+        return res.status(400).json({ message: err })
+    }
+
     try {
         const { citizenID, password } = req.body;
         if (!(citizenID && password)) {

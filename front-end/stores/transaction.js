@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 import { useRouter } from 'vue-router'
 import { ref } from 'vue'
 import axios from '../src/plugin/axios'
+import Swal from 'sweetalert2'
 
 export const useTransactionStore = defineStore('transaction', () => {
     const router = useRouter()
@@ -37,9 +38,35 @@ export const useTransactionStore = defineStore('transaction', () => {
                 //update balance
                 isUpdateBalance.value = true
                 amount.value = ''
+                Swal.fire({
+                    icon: "success",
+                    title: "Deposited success",
+                    showConfirmButton: false,
+                    timer: 1600
+                });
             }
+            amount.value = ''
         } catch (err) {
             console.error(err)
+        }
+    }
+
+    const isBalanceEnough = () => {
+        if (amount.value <= 0) {
+            return false
+        }
+        else if (amount.value > balance.value) {
+            console.log('amount not enough----', balance.value)
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Your balance is not enough!",
+                confirmButtonColor: "#34B5A5"
+            });
+            amount.value = ''
+            return false
+        } else {
+            return true
         }
     }
 
@@ -47,8 +74,7 @@ export const useTransactionStore = defineStore('transaction', () => {
         try {
             console.log('withdraw na jaa')
             await getBalance()
-            if (amount.value <= 0 || amount.value > balance.value) {
-                console.log('amount not enough----', balance.value)
+            if (!isBalanceEnough()) {
                 return
             }
             const res = await axios.post('http://localhost:5000/withdraw', {
@@ -60,7 +86,14 @@ export const useTransactionStore = defineStore('transaction', () => {
                 //update balance
                 isUpdateBalance.value = true
                 amount.value = ''
+                Swal.fire({
+                    icon: "success",
+                    title: "Withdraw success",
+                    showConfirmButton: false,
+                    timer: 1600
+                });
             }
+            amount.value = ''
         } catch (err) {
             console.error(err)
         }
@@ -70,8 +103,7 @@ export const useTransactionStore = defineStore('transaction', () => {
         try {
             console.log('transfer na jaa')
             await getBalance()
-            if (amount.value <= 0 || amount.value > balance.value) {
-                console.log('amount not enough----', balance.value)
+            if (!isBalanceEnough()) {
                 return
             }
             const res = await axios.post('http://localhost:5000/transfer', {
@@ -83,11 +115,23 @@ export const useTransactionStore = defineStore('transaction', () => {
                 balance.value = res.data.balance
                 //update balance
                 isUpdateBalance.value = true
+                Swal.fire({
+                    icon: "success",
+                    title: "Transfer success",
+                    showConfirmButton: false,
+                    timer: 1600
+                });
                 amount.value = ''
                 toAccount.value = ''
             }
         } catch (err) {
             console.error(err)
+            Swal.fire({
+                icon: "error",
+                title: "Account not found!",
+                text: "You maybe type wrong account number",
+                confirmButtonColor: "#34B5A5"
+            });
         }
     }
 

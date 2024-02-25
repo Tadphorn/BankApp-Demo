@@ -2,6 +2,8 @@ import { defineStore } from 'pinia'
 import { useRouter } from 'vue-router'
 import { ref } from 'vue'
 import axios from '../src/plugin/axios'
+import Swal from 'sweetalert2'
+
 
 export const useUserStore = defineStore('user', () => {
     const router = useRouter()
@@ -46,6 +48,12 @@ export const useUserStore = defineStore('user', () => {
             // citizenID.value = ''
         } catch (err) {
             console.error(err)
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Citizen Id or Password is Wrong!",
+                confirmButtonColor: "##34B5A5",
+            });
         }
     }
 

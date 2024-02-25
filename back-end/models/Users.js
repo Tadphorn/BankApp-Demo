@@ -27,7 +27,6 @@ const UsersSchema = new Schema({
     },
     token: {
         type: String,
-        required: true
     },
 });
 

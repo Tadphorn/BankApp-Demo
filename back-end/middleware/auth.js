@@ -3,11 +3,6 @@ const jwt = require('jsonwebtoken');
 const config = process.env;
 
 const verifyToken = (req, res, next) => {
-    // const token = req.body.token || req.query.token || req.headers['x-access-token'];
-
-    // if (!token) {
-    //     return res.status(403).send('You need a token for access this page');
-    // }
     let authorization = req.headers.authorization
 
     if (!authorization) {

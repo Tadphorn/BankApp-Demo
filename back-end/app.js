@@ -2,7 +2,8 @@ require('dotenv').config()
 
 const cors = require("cors")
 const express = require('express')
-const mongoose = require('mongoose')
+const connectDB = require('./config')
+
 const app = express();
 const PORT = 5000 || process.env.PORT;
 
@@ -14,17 +15,9 @@ app.use('/', require('./routes/users'));
 app.use('/', require('./routes/crud'));
 
 
-const mongoURI = 'mongodb://localhost:27017/BankApp'
-const options = {
-    readPreference: 'secondary',
-};
-
-
-
 app.listen(PORT, async () => {
     try {
-        // mongoose.createConnection(mongoURI);
-        await mongoose.connect(mongoURI, options);
+        connectDB();
         console.log('Database connected');
     } catch (err) {
         console.log(err);

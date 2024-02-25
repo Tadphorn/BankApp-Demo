@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const auth = require('../middleware/auth');
 const mongoose = require('mongoose');
+const connectDB = require('../config');
 //model
 const User = require('../models/Users');
 const Receive = require('../models/Receive');
@@ -22,9 +23,9 @@ router.get('/hi', auth, async (req, res) => {
 
 // test connection
 router.post('/deposit', auth, async (req, res) => {
-    const session = await mongoose.startSession();
-    session.startTransaction();
+    // const session = await connectDB.startSession();
     try {
+        // session.startTransaction();
         const { amount } = req.body;
         const user = await User.findById(req.user.userId);
         // Update balance field
@@ -41,15 +42,13 @@ router.post('/deposit', auth, async (req, res) => {
         });
         await deposit.save();
         // Commit the changes
-        await session.commitTransaction();
+        // await session.commitTransaction();
         return res.status(200).json({ message: `Deposit ${amount} bath`, balance: user.balance })
 
     } catch (err) {
         console.log(err);
-        await session.abortTransaction();
+        // await session.abortTransaction();
         return res.status(400).json({ message: err.message });
-    } finally {
-        session.endSession();
     }
 });
 
@@ -83,6 +82,7 @@ router.post('/withdraw', auth, async (req, res) => {
 router.post('/transfer', auth, async (req, res) => {
     try {
         const { toAccount, amount } = req.body;
+        console.log("--------", req.user);
         //widthdraw from user
         const user = await User.findById(req.user.userId);
         user.balance -= amount;
