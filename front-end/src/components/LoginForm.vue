@@ -7,8 +7,9 @@ const userStore = useUserStore();
 <template>
     <div>
         <div class="hero-content flex-col lg:flex-row">
-            <div class="text-center lg:text-left max-w-md pr-10">
-                <h1 class="text-5xl font-bold">Login First!</h1>
+            <div class="text-center lg:text-left max-w-lg pr-10">
+                <h1 class="text-5xl font-bold mb-3 text-accent">myBank</h1>
+                <h1 class="text-2xl font-bold">Login First!</h1>
                 <p class="py-6">Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda excepturi exercitationem
                     quasi. In deleniti eaque aut repudiandae et a id nisi.</p>
             </div>

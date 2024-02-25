@@ -10,6 +10,7 @@ export const useUserStore = defineStore('user', () => {
     const userInfo = ref({})
     const citizenID = ref('1100600462802')
     const password = ref('')
+    const isLogin = ref(false)
 
     const getUser = async () => {
         try {
@@ -39,8 +40,8 @@ export const useUserStore = defineStore('user', () => {
             })
             if (res.status === 200) {
                 router.push('/deposit')
-                // console.log('login success', res.data.user)
                 userInfo.value = res.data.user
+                isLogin.value = true
                 // Save token to local storage
                 localStorage.setItem("token", res.data.user.token);
                 Swal.fire({
@@ -69,6 +70,7 @@ export const useUserStore = defineStore('user', () => {
             const res = await axios.get('http://localhost:5000/logout')
             if (res.status === 200) {
                 // Remove token from local storage
+                isLogin.value = false
                 localStorage.removeItem('token')
                 router.push('/')
                 console.log('logout success')
@@ -92,6 +94,7 @@ export const useUserStore = defineStore('user', () => {
         userInfo,
         login,
         getUser,
-        onAuthChange
+        onAuthChange,
+        isLogin
     }
 });
