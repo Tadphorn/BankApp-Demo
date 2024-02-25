@@ -2,7 +2,7 @@ require('dotenv').config()
 
 const cors = require("cors")
 const express = require('express')
-const connectDB = require('./config')
+const mongoose = require('mongoose');
 
 const app = express();
 const PORT = 5000 || process.env.PORT;
@@ -17,7 +17,7 @@ app.use('/', require('./routes/crud'));
 
 app.listen(PORT, async () => {
     try {
-        connectDB();
+        mongoose.connect(process.env.MONGODB_URI)
         console.log('Database connected');
     } catch (err) {
         console.log(err);
