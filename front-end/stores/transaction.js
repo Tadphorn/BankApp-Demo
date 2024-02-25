@@ -42,7 +42,7 @@ export const useTransactionStore = defineStore('transaction', () => {
                     icon: "success",
                     title: "Deposited success",
                     showConfirmButton: false,
-                    timer: 1600
+                    timer: 1500
                 });
             }
             amount.value = ''
@@ -90,7 +90,7 @@ export const useTransactionStore = defineStore('transaction', () => {
                     icon: "success",
                     title: "Withdraw success",
                     showConfirmButton: false,
-                    timer: 1600
+                    timer: 1500
                 });
             }
             amount.value = ''
@@ -119,7 +119,7 @@ export const useTransactionStore = defineStore('transaction', () => {
                     icon: "success",
                     title: "Transfer success",
                     showConfirmButton: false,
-                    timer: 1600
+                    timer: 1500
                 });
                 amount.value = ''
                 toAccount.value = ''

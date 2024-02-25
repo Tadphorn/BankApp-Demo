@@ -1,7 +1,16 @@
 <script setup>
 import { useUserStore } from '../../stores/user';
+import { useTransactionStore } from '../../stores/transaction';
 
 const userStore = useUserStore();
+const transactionStore = useTransactionStore();
+
+const handleLogout = () => {
+    userStore.logout();
+    transactionStore.isUpdateBalance = false;
+    console.log('logout', transactionStore.isUpdateBalance);
+}
+
 </script>
 
 
@@ -16,7 +25,7 @@ const userStore = useUserStore();
                 <router-link to="/history" class="btn btn-ghost text-base">History</router-link>
             </div>
             <div class="flex-none">
-                <button @click="userStore.logout()">Logout</button>
+                <button @click="handleLogout()">Logout</button>
             </div>
         </div>
     </div>

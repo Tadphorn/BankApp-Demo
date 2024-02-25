@@ -8,7 +8,7 @@ import Swal from 'sweetalert2'
 export const useUserStore = defineStore('user', () => {
     const router = useRouter()
     const userInfo = ref({})
-    const citizenID = ref('1100600462801')
+    const citizenID = ref('1100600462802')
     const password = ref('')
 
     const getUser = async () => {
@@ -43,6 +43,12 @@ export const useUserStore = defineStore('user', () => {
                 userInfo.value = res.data.user
                 // Save token to local storage
                 localStorage.setItem("token", res.data.user.token);
+                Swal.fire({
+                    icon: "success",
+                    title: "Login...",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
             }
             password.value = ''
             // citizenID.value = ''
@@ -66,6 +72,12 @@ export const useUserStore = defineStore('user', () => {
                 localStorage.removeItem('token')
                 router.push('/')
                 console.log('logout success')
+                Swal.fire({
+                    icon: "success",
+                    title: "Logout...",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
             }
         } catch (err) {
             console.error(err)

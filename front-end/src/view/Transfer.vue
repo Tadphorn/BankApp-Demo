@@ -21,7 +21,7 @@ onMounted(async () => {
             <h1 class="text-4xl mb-10">Transfer</h1>
             <label class="input input-accent flex items-center gap-2 mb-5">
                 To Account:
-                <input type="text" class="grow" placeholder="01XXXXXXX919" v-model="transactionStore.toAccount" />
+                <input type="text" class="grow" placeholder="01XXXXXXX9" v-model="transactionStore.toAccount" />
             </label>
             <label class="input input-accent flex items-center gap-2 mb-5">
                 Amount:

@@ -7,9 +7,11 @@ const connectDB = require('../config');
 const User = require('../models/Users');
 const Receive = require('../models/Receive');
 const Transfer = require('../models/Transfer');
+const Joi = require('joi');
 
-
-
+const amountSchema = Joi.object({
+    amount: Joi.number().min(1).required(),
+})
 
 router.get('/hi', auth, async (req, res) => {
 
@@ -21,8 +23,14 @@ router.get('/hi', auth, async (req, res) => {
     }
 });
 
-// test connection
+// test transaction
 router.post('/deposit', auth, async (req, res) => {
+    //validate input
+    try {
+        await amountSchema.validateAsync(req.body, { abortEarly: false })
+    } catch (err) {
+        return res.status(400).json({ message: err })
+    }
     // const session = await connectDB.startSession();
     try {
         // session.startTransaction();
@@ -56,6 +64,12 @@ router.post('/deposit', auth, async (req, res) => {
 
 
 router.post('/withdraw', auth, async (req, res) => {
+    //validate input
+    try {
+        await amountSchema.validateAsync(req.body, { abortEarly: false })
+    } catch (err) {
+        return res.status(400).json({ message: err })
+    }
     try {
         const { amount } = req.body;
         const user = await User.findById(req.user.userId);
@@ -79,7 +93,18 @@ router.post('/withdraw', auth, async (req, res) => {
     }
 })
 
+const transferSchema = Joi.object({
+    toAccount: Joi.string().required(),
+    amount: Joi.number().min(1).required(),
+})
+
 router.post('/transfer', auth, async (req, res) => {
+    //validate input
+    try {
+        await transferSchema.validateAsync(req.body, { abortEarly: false })
+    } catch (err) {
+        return res.status(400).json({ message: err })
+    }
     try {
         const { toAccount, amount } = req.body;
         console.log("--------", req.user);
